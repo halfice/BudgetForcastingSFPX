@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "solutionarabicforms-client-side-solution",
+    "id": "18c28fbb-4886-4ef3-a90c-9b35163fbfa7",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": true
+  },
+  "paths": {
+    "zippedPackage": "solution/solutionarabicforms.sppkg"
+  }
+}

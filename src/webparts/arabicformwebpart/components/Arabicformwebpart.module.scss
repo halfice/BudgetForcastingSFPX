@@ -1,0 +1,191 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+
+.body{
+  text-align: none!important;
+}
+
+.myinput {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  padding: 5px;
+  widows: 55%;
+  border-right: none;
+  border-top: none;
+  border-left: none
+}
+
+.form-control{
+  font-family: monospace!important;
+  font-size: 16px!important;
+  resize: none!important;
+  padding: 2!important;
+  border: none!important;
+  border-bottom: solid 1px lightgray;
+  width: 100%!important;
+  outline: none!important;
+}
+
+.rowDate
+{
+  font-size: 12px;
+  color:black;
+  margin: 0 -8px;
+  box-sizing: border-box;
+  padding: 5px;
+  font-size: 20px;
+}
+.containerinner{
+ padding:11px;
+}
+
+.labelc{
+  font-size: 15px;
+  padding:11px;
+  font-weight: bold!important;
+}
+
+.textAreaClass{
+  font-family: monospace;
+    font-size: 16px;
+    resize: none;
+    height: 3rem;
+    padding: 3;
+    border: none;
+    border-bottom: solid 1px lightgray;
+    width: 100%;
+    outline: none;
+}
+
+.textClass{
+  font-family: monospace;
+  font-size: 16px;
+  resize: none;
+  padding: 2;
+  border: none;
+  border-bottom: solid 1px lightgray;
+  width: 100%;
+  outline: none;
+}
+
+.textAreaClass:hover{ 
+  font-family: monospace;
+  font-size: 16px;
+  resize: none;
+  height: 3rem;
+  padding: 3;
+  border: none;
+  width: 100%;
+  outline: none;
+  background-color: lightgray;
+}
+
+
+.mainHeading{
+  text-align: center;
+  font-size: 44px;
+  background: #7a53a0;
+  font-size: white;
+  color: white;
+  border-radius: 11px;
+  padding: 9PX;
+  margin: 7PX;
+  z-index: 111px;
+  font-weight: initial;
+}
+.containeren{
+  max-width: 700px;
+  margin: 0px auto;
+  direction: ltr!important;
+  
+}
+
+.containerar {
+  max-width: 700px;
+  margin: 0px auto;
+  direction:rtl!important;
+  text-align: right;;
+}
+
+.containeren
+
+
+
+.textboxCssar{
+text-align: right;
+}
+
+.textboxCssen{
+  text-align: left;
+}
+.arabicformwebpart {
+ 
+
+  .row {
+    @include ms-Grid-row;
+    @include ms-fontColor-white;
+    background-color: $ms-color-themeDark;
+    padding: 20px;
+  }
+
+  .column {
+    @include ms-Grid-col;
+    @include ms-lg10;
+    @include ms-xl8;
+    @include ms-xlPush2;
+    @include ms-lgPush1;
+  }
+
+  .title {
+    @include ms-font-xl;
+    @include ms-fontColor-white;
+  }
+
+  .subTitle {
+    @include ms-font-l;
+    @include ms-fontColor-white;
+  }
+
+  .description {
+    @include ms-font-l;
+    @include ms-fontColor-white;
+  }
+
+  .button {
+    // Our button
+    text-decoration: none;
+    height: 32px;
+
+    // Primary Button
+    min-width: 80px;
+    background-color: $ms-color-themePrimary;
+    border-color: $ms-color-themePrimary;
+    color: $ms-color-white;
+
+    // Basic Button
+    outline: transparent;
+    position: relative;
+    font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: $ms-font-size-m;
+    font-weight: $ms-font-weight-regular;
+    border-width: 0;
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 16px;
+
+    .label {
+      font-weight: $ms-font-weight-semibold;
+      font-size: $ms-font-size-m;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 4px;
+      vertical-align: top;
+      display: inline-block;
+    }
+  }
+}

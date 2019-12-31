@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "arabicformwebpart-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/arabicformwebpart/ArabicformwebpartWebPart.js",
+          "manifest": "./src/webparts/arabicformwebpart/ArabicformwebpartWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ArabicformwebpartWebPartStrings": "lib/webparts/arabicformwebpart/loc/{locale}.js"
+  }
+}
