@@ -13,6 +13,8 @@ declare interface IArabicformwebpartWebPartStrings {
   ProjectName:string;
   Amountforcast:string;
   AdingProject:string;
+  Deapartmentstr:string;
+  month:string;
 
 }
 

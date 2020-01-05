@@ -18,6 +18,16 @@ export interface IArabicformwebpartProps {
   UploadedFilesArray: Array<string>[];
   ProjectName: string;
   AmountForcast: Number;
+  Screen:string;
+  IsAuditorIsAdmin:boolean;
+  Department:string;
+  ProjectsArray:Array<object>;
+  SelectedMonth:string;
+  TotalAmountForcasted:string;
+  MonthlyForcastAmount:string;
+  BudgetForcasting:Array<object>;
+  Remarks:string;
+  
   
 
 

@@ -21,12 +21,14 @@
     "@types/react-dom": "16.8.3",
     "@types/webpack-env": "1.13.1",
     "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "office-ui-fabric-react": "^6.189.2",
     "react": "16.8.5",
     "react-datetime": "^2.16.3",
     "react-dom": "16.8.5",
     "react-file-reader": "^1.1.4",
+    "react-number-format": "^4.3.1",
     "sp-pnp-js": "^3.0.10"
   },
   "resolutions": {

@@ -16,5 +16,7 @@ define([], function() {
       "ProjectName":"شراء",
       "Amountforcast":"المبلغ المتوقع",
       "AdingProject":"إضافة مشروع",
+      "Deapartmentstr":"إدارة",
+      "month":"شهر",
     }
   });

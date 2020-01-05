@@ -16,5 +16,7 @@ define([], function() {
     "ProjectName":"Project Name",
     "Amountforcast":"Amount Forcast",
     "AdingProject":"Adding Project",
+    "Deapartmentstr":"Department",
+    "month":"Month",
   }
 });
