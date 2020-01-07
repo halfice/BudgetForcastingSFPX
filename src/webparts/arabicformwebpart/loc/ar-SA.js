@@ -18,5 +18,6 @@ define([], function() {
       "AdingProject":"إضافة مشروع",
       "Deapartmentstr":"إدارة",
       "month":"شهر",
+      "AmountDelivere":"ايصال"
     }
   });

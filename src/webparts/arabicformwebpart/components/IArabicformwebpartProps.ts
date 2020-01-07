@@ -27,6 +27,7 @@ export interface IArabicformwebpartProps {
   MonthlyForcastAmount:string;
   BudgetForcasting:Array<object>;
   Remarks:string;
+  MonthlyDeliveredAmount:string;
   
   
 

@@ -48,6 +48,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       SelectedMonth: "",
       TotalAmountForcasted: "",
       MonthlyForcastAmount: "",
+      MonthlyDeliveredAmount: "",
       BudgetForcasting: [],
       Remarks: "",
 
@@ -59,6 +60,10 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     this.handleInputChangeProjectName = this.handleInputChangeProjectName.bind(this);
     this.handleInputChangeForcastAmount = this.handleInputChangeForcastAmount.bind(this);
     this.AddActivity = this.AddActivity.bind(this);
+  this.handleUpdateProject=this.handleUpdateProject.bind(this);
+  
+  
+  
   };
   OnchangeRemarks(event: any): void {
     this.setState({ Remarks: event.target.value });
@@ -153,6 +158,32 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     }).then((iar: ItemAddResult) => {
       this.fetchProjects();
     });
+  }
+
+  handleUpdateProject(){
+    
+    var tmp = this.state.SelectedMonth;
+    var TempArray = this.state.BudgetForcasting;
+    TempArray = TempArray.filter(function (TempArray) {
+      return TempArray["Month"] == tmp;
+    });
+
+   // tmp=this.state.ProjectName;
+    //TempArray = this.state.BudgetForcasting;
+   // TempArray = TempArray.filter(function (TempArray) {
+     // return TempArray["Project"] == tmp;
+    //});
+
+    var ItemID=0;
+    ItemID=TempArray[0]["ItemId"];
+    var NewISiteUrl = this.props.siteurl;
+    var NewSiteUrl = NewISiteUrl.replace("/SitePages", "");
+    let webx = new Web(NewSiteUrl);
+    webx.lists.getByTitle("Forcasting").items.getById(ItemID).update({
+      Delivered: this.state.MonthlyDeliveredAmount,
+  }).then(r => {
+      this.FetchForCasting(this.state.ProjectName);
+  });
   }
 
   AddForcastMonth() {
@@ -347,37 +378,57 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       return <option value={item} key={item}>{item}</option>
     });
 
-    var SubProjectArraysCards = this.state.BudgetForcasting.map(function (item, i) {
-      return (
-
-        <div className="col-md-4">
-          <div className="card" >
-            <img className="card-img-top" src={logoj} alt="Card image cap" />
-            <div className="card-body">
-              <h5 className="card-title">{strings.ProjectName}:{item["Project"]}</h5>
-              <p className="card-text"> <NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
-                allowLeadingZeros={false} value={item["Amount"]}
-              /></p>
-              <p className="card-text"><NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
-                value={item["Remaining"]}
-                allowLeadingZeros={false} /></p>
-
-              <a href="#" className="btn btn-primary">{item["Month"]}</a>
-              <a href="#" className="btn btn-success">{item["AmountMonthly"]}</a>
-
+    if (this.state.Screen == "Forcast") {
+      var SubProjectArraysCards = this.state.BudgetForcasting.map(function (item, i) {
+        return (
+          <div className="col-md-4">
+            <div className="card" >
+              <img className="card-img-top" src={logoj} alt="Card image cap" />
+              <div className="card-body">
+                <h5 className="card-title">{item["Project"]}</h5>
+                <p className="card-text"> <NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
+                  allowLeadingZeros={false} value={item["Amount"]}
+                /></p>
+                <p className="card-text"><NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
+                  value={item["Remaining"]}
+                  allowLeadingZeros={false} /></p>
+                <a href="#" className="btn btn-primary">{item["Month"]}</a>
+                <a href="#" className="btn btn-success">{item["AmountMonthly"]}</a>
+              </div>
             </div>
           </div>
+        );
+      });
+      //
+    }
 
+    if (this.state.Screen == "Deliverables") {
+      var SubProjectArraysCardsDelivered = this.state.BudgetForcasting.map(function (item, i) {
+        return (
+          <div className="col-md-4">
+            <div className="card" >
+              <img className="card-img-top" src={logoj} alt="Card image cap" />
+              <div className="card-body">
+                <h5 className="card-title">{item["Project"]}</h5>
+                <p className="card-text"> <NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
+                  allowLeadingZeros={false} value={item["Amount"]}
+                /></p>
+                <p className="card-text"><NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
+                  value={item["Remaining"]}
+                  allowLeadingZeros={false} /></p>
+                <p className="card-text"><NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
+                  value={item["Delivered"]}
+                  allowLeadingZeros={false} /></p>
 
-
-        </div>
-
-
-
-      );
-    });
-
-
+                <a href="#" className="btn btn-primary">{item["Month"]}</a>
+                <a href="#" className="btn btn-success">{item["AmountMonthly"]}</a>
+              </div>
+            </div>
+          </div>
+        );
+      });
+      //
+    }
 
 
     return (
@@ -405,7 +456,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
               </div>
             }
             {this.state.IsAuditorIsAdmin == true &&
-              <div className={styles.VideoMainDivDelegation} onClick={this.handleAddProject.bind(this)}>
+              <div className={styles.VideoMainDivDelegation} onClick={this.AddingProject.bind(this)}>
                 <span className={styles.innerspan}>Add Projet</span>
               </div>
             }
@@ -519,8 +570,6 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
            <NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '}
               value={this.state.TotalAmountForcasted}
             />
-
-
           </h3>
             <div className={styles.PaddingForBottom}>
               <div>{strings.AdingProject}</div>
@@ -535,22 +584,22 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
                 onChange={this.onChangeMonthDropDown.bind(this)}>{MonthsArray}
               </select>
 
-              <div className={styles.labelc}>{strings.Amountforcast}</div>
+              <div className={styles.labelc}>{strings.AmountDelivere}</div>
               <NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '} onValueChange={(values) => {
                 var { formattedValue, value } = values;
                 formattedValue = formattedValue.replace("aed", "");
-                this.setState({ MonthlyForcastAmount: formattedValue })
+                this.setState({ MonthlyDeliveredAmount: formattedValue })
               }} />
             </div>
             <Stack horizontal >
-              <PrimaryButton text={strings.Submitbtn} allowDisabledFocus onClick={this.AddForcastMonth.bind(this)} />
+              <PrimaryButton text={strings.Submitbtn} allowDisabledFocus onClick={this.handleUpdateProject.bind(this)} />
             </Stack>
             <hr>
             </hr>
             {
               this.state.BudgetForcasting.length > 0 &&
               <div className="row">
-                {SubProjectArraysCards}
+                {SubProjectArraysCardsDelivered}
               </div>
             }
 
