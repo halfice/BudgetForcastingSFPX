@@ -1,18 +1,29 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 .card-img-top{
   width:150px!important;
-  
+  }
+
+.MainDivClass{
+  padding: 9px;
+    border: solid 1px lightgray;
+    margin: 8px;
+    border-radius: 3px;
+}
+.SubHeading{
+  padding:7px; 
+  text-align: center;
+    text-align: center;
+    border-bottom: solid 1px rebeccapurple;
+    font-size: 33px;
+    border-radius: 7px;
+    background-color: #80808026
 }
 
 .Profile{
   text-align: center;
-  font-size: 44px;
-  background: #7a53a0;
+  font-size: 14px;
   font-size: white;
   color: white;
-  border-radius: 11px;
-  padding: 9PX;
-  margin: 7PX;
   z-index: 111px;
   font-weight: initial;
   cursor: pointer;
@@ -47,31 +58,32 @@
 }
 
 
-  .container {
-    max-width: 70%;
-    margin: 0px auto;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
-    margin-left: 20%;
-  }
-  .ScrollGrids{
-    height: 400px;
-    overflow: auto;
-  }
 
-  .rowBorderStyles {
-    border-bottom: 1px solid #ddd!important;
+.container {
+  max-width: 70%;
+  margin: 0px auto;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+  margin-left: 20%;
+}
+.ScrollGrids{
+  height: 400px;
+  overflow: auto;
+}
+
+.rowBorderStyles {
+  border-bottom: 1px solid #ddd!important;
 }
 
 .pendingFindingSpan{
-  font-size: 21px;
-    font-family: inherit;
-    font-weight: 100;
-    text-decoration: underline;
-    padding-bottom: 11px;
-    display: block;
+font-size: 21px;
+  font-family: inherit;
+  font-weight: 100;
+  text-decoration: underline;
+  padding-bottom: 11px;
+  display: block;
 }
 
-
+  
 
 .headerspans{
   background-color:#c72d25!important;
@@ -192,7 +204,6 @@
   border: 1px solid #ccc!important;
   width: 100%!important;
   font-weight: bold;
-  background-color: #f4f4f4;
   margin: 7px
 }
 
@@ -264,9 +275,7 @@
 .myinputTextArea{
   width:97%!important;
   height: 143px!important;
-  background-color: lightgray;
   overflow: auto;
-    background-color: #d3d3d30f;
     border: solid 1px #a800001f
 }
 
@@ -423,16 +432,14 @@
     background-repeat: no-repeat;
     background-position: center;
     text-emphasis: none;
-    padding: 9px;
-    margin: 17px;
-    border: 2px solid #7a7a7d52;
+    padding: 7px;
+    margin: 7px;
+    border: 4px solid #e9ecef;
     float: left;
     cursor: pointer;
     position: relative;
-    width:150px;
-    height: 110px;
-    width:220px;
-    height: 200px;
+    width:160px;
+    height: 160px;
     color: white; 
     border-radius: 8px;
   }
@@ -442,16 +449,14 @@
     background-repeat: no-repeat;
     background-position: center;
     text-emphasis: none;
-    padding: 9px;
-    margin: 17px;
-    border: 2px solid #7a7a7d52;
+    padding: 7px;
+    margin: 7px;
+    border: 4px solid #e9ecef;
     float: left;
     cursor: pointer;
     position: relative;
-    width:150px;
-    height: 110px;
-    width:220px;
-    height: 200px;
+    width:160px;
+    height: 160px;
     color: white; 
     border-radius: 8px;
   }
@@ -462,16 +467,14 @@
     background-repeat: no-repeat;
     background-position: center;
     text-emphasis: none;
-    padding: 9px;
-    margin: 17px;
-    border: 2px solid #7a7a7d52;
+    padding: 7px;
+    margin: 7px;
+    border: 4px solid #e9ecef;
     float: left;
     cursor: pointer;
     position: relative;
-    width:150px;
-    height: 110px;
-    width:220px;
-    height: 200px;
+    width:160px;
+    height: 160px;
     color: white; 
     border-radius: 8px;
   }
@@ -481,16 +484,14 @@
     background-repeat: no-repeat;
     background-position: center;
     text-emphasis: none;
-    padding: 9px;
-    margin: 17px;
-    border: 2px solid #7a7a7d52;
+    padding: 7px;
+    margin: 7px;
+    border: 4px solid #e9ecef;
     float: left;
     cursor: pointer;
     position: relative;
-    width:150px;
-    height: 110px;
-    width:220px;
-    height: 200px;
+    width:160px;
+    height: 160px;
     color: white; 
     border-radius: 8px;
   }
@@ -506,15 +507,15 @@
     background-repeat: no-repeat;
     background-position: center;
     text-emphasis: none;
-    padding:9px;
-    margin: 17px;
-    border: 2px solid #7a7a7d52;
+    padding: 7px;
+    margin: 7px;
+    border: 4px solid #e9ecef;
     float: left;
     cursor: pointer;
     position: relative;
-    width:220px;
-    height: 200px;
-    color: white;     
+    width:160px;
+    height: 160px;
+    color: white; 
     border-radius: 8px;
   }
 
@@ -569,27 +570,101 @@
   border: none;
   width: 100%;
   outline: none;
-  background-color: lightgray;
+}
+.AddaImage{
+  width:100px;
+  padding:11px;
+}
+
+.circleContent{
+  width: 160px;
+    height: 160px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-align: center;
+    color: black;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 1px;
+    border-radius: 50%important;
+    background-color: white;
+    border: solid 8px #ffc107;
+    padding:9px;
+
+}
+
+.circleContentdeliver{
+  width: 160px;
+  height: 160px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  text-align: center;
+  color: black;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 1px;
+  border-radius: 50%important;
+  background-color: white;
+  border: solid 8px #ffc107;
+  padding:13px; 
+  padding-top:25px;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  text-align: center;
+  color: #5226a7;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 auto 2px;
+  border-radius: 50%important;
+  background-color: #f4f4f4;
+  border: solid 8px green;
+  padding:11px;
 }
 
 
-.mainHeading{
+.MainDivClass{
+  padding: 9px;
+    border: solid 1px lightgray;
+    margin: 8px;
+    border-radius: 3px;
+    background: linear-gradient(0deg,#ffffff,#343a4000)
+}
+
+.mainHeadingfirst{
   text-align: center;
-  font-size: 44px;
-  background: #7a53a0;
-  font-size: white;
-  color: white;
-  border-radius: 11px;
-  padding: 9PX;
-  margin: 7PX;
   z-index: 111px;
   font-weight: initial;
   cursor: pointer;
+}
+.mainHeading{
+  text-align: center;
+  font-size: 17px;
+  background: #77030e;
+  font-size: white;
+  color: white;
+  border-radius: 4px;
+  padding: 3PX;
+  margin: 3PX;
+  z-index: 111px;
+  font-weight: initial;
+  cursor: pointer;
+
+
+
 }
 .containeren{
   max-width: 700px;
   margin: 0px auto;
   direction: ltr!important;
+  display:flow-root;
   
 }
 
@@ -598,9 +673,10 @@
   margin: 0px auto;
   direction:rtl!important;
   text-align: right;;
+  display:flow-root;
 }
 
-.containeren
+
 
 
 
