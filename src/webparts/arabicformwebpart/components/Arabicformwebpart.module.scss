@@ -1,4 +1,5 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 .card-img-top{
   width:150px!important;
   }
@@ -21,7 +22,6 @@
 
 .Profile{
   text-align: center;
-  font-size: 14px;
   font-size: white;
   color: white;
   z-index: 111px;
@@ -201,10 +201,25 @@ font-size: 21px;
   border-radius: 3px;
   resize: vertical;
   font-size: 17px!important;
-  border: 1px solid #ccc!important;
-  width: 100%!important;
+  
   font-weight: bold;
-  margin: 7px
+  padding: 11px;
+    border-radius: 3px;
+    resize: vertical;
+    font-size: 17px!important;
+    /* border: 1px solid #ccc!important; */
+    width: 90%;
+    font-weight: 700;
+    margin: 11px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    background-color: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+
 }
 
 .colorwhitespan{
@@ -422,7 +437,32 @@ font-size: 21px;
   .MainDiv{
     text-align: center;
     cursor: pointer;
-    float: left;
+    
+  }
+
+  .maindivAddProject{
+  padding: 11px;
+  margin: 11px;
+  border-radius: 9px;
+  display: block;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  align-items: center;
+  box-shadow: 0 2px 4px -0.75px rgba(0, 0, 0, 0.37);
+  color: #212529;
+  display: flex;
+  flex-direction: column;
+  font-size: 28px;
+  justify-content: center;
+  border-radius: 2px;
+  left: 0;
+  bottom: 0;
+  margin: 8px;
+  overflow: hidden;
+  background: linear-gradient(0deg,#fff,#93939e);
   }
 
  
@@ -577,56 +617,55 @@ font-size: 21px;
 }
 
 .circleContent{
-  width: 160px;
-    height: 160px;
+  width: 80px;
+    height: 80px;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     text-align: center;
-    color: black;
-    font-size: 16px;
-    text-transform: uppercase;
-    font-weight: 700;
+    color: #333333;
+    font-size: 9px;
     margin: 1px;
     border-radius: 50%important;
-    background-color: white;
-    border: solid 8px #ffc107;
-    padding:9px;
+    background-color: #fff;
+    border: 5px solid #ffc107;
+    padding: 11px;
+    margin: 11px;
+    background-color: #69797e0d;
 
 }
 
 .circleContentdeliver{
-  width: 160px;
-  height: 160px;
+  width: 80px;
+  height: 80px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   text-align: center;
-  color: black;
-  font-size: 16px;
-  text-transform: uppercase;
-  font-weight: 700;
+  color: #333333;
+  font-size: 9px;
   margin: 1px;
   border-radius: 50%important;
-  background-color: white;
-  border: solid 8px #ffc107;
-  padding:13px; 
-  padding-top:25px;
+  background-color: #fff;
+  border: 5px solid #ffc107;
+  padding: 11px;
+  margin: 11px;
+  background-color: #69797e0d;
 }
 
 .circle {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   text-align: center;
-  color: #5226a7;
-  font-size: 16px;
-  text-transform: uppercase;
-  font-weight: 700;
-  margin: 0 auto 2px;
+  color: #333333;
+  font-size: 9px;
+  margin: 1px;
   border-radius: 50%important;
-  background-color: #f4f4f4;
-  border: solid 8px green;
-  padding:11px;
+  background-color: #fff;
+  border: 5px solid #ffc107;
+  padding: 5  px;
+  margin: 7px;
+  background-color: #69797e0d;
 }
 
 
@@ -643,25 +682,34 @@ font-size: 21px;
   z-index: 111px;
   font-weight: initial;
   cursor: pointer;
+  font-size: 17px;
+    color: #026518;
+    border-radius: 4px;
+    padding: 3px;
+    margin: 3px;
+    border: solid 1px lightgrey;
 }
 .mainHeading{
   text-align: center;
   font-size: 17px;
-  background: #77030e;
-  font-size: white;
-  color: white;
   border-radius: 4px;
   padding: 3PX;
   margin: 3PX;
   z-index: 111px;
   font-weight: initial;
   cursor: pointer;
+  font-size: 17px;
+    color: #026518;
+    border-radius: 4px;
+    padding: 3px;
+    margin: 3px;
+    border: solid 1px lightgrey;
 
 
 
 }
 .containeren{
-  max-width: 700px;
+  max-width: 100%;
   margin: 0px auto;
   direction: ltr!important;
   display:flow-root;
@@ -669,7 +717,7 @@ font-size: 21px;
 }
 
 .containerar {
-  max-width: 700px;
+  max-width: 100%;
   margin: 0px auto;
   direction:rtl!important;
   text-align: right;;

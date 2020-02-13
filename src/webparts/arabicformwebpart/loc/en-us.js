@@ -18,6 +18,12 @@ define([], function() {
     "AdingProject":"Adding Project",
     "Deapartmentstr":"Department",
     "month":"Month",
-    "AmountDelivere":"Delivered"
+    "AmountDelivere":"Delivered",
+    "SelectString":"Select",
+    "mainforcast":"Forcast",
+    "mainreport":"Reports",
+    "mainactivities":"Activities",
+    "mainproject":"Project",
+    "maindeliverables":"Deliverables",
   }
 });

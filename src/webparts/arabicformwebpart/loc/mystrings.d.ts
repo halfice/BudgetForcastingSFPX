@@ -16,6 +16,13 @@ declare interface IArabicformwebpartWebPartStrings {
   Deapartmentstr:string;
   month:string;
   AmountDelivere:string;
+  SelectString:string;
+
+  mainforcast:string;
+  mainreport:string;
+  mainactivities:string;
+  mainproject:string;
+  maindeliverables:string;
 
 }
 

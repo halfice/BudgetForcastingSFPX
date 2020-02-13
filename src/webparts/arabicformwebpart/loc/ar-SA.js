@@ -18,6 +18,15 @@ define([], function() {
       "AdingProject":"إضافة مشروع",
       "Deapartmentstr":"إدارة",
       "month":"شهر",
-      "AmountDelivere":"ايصال"
+      "AmountDelivere":"ايصال",
+      "SelectString":"تحديد",
+      "mainforcast":"ابحاث",
+      "mainreport":"تقارير",
+      "mainactivities":"أنشطة",
+      "mainproject":"مشروع",
+      "maindeliverables":"الإنجازات",
+
     }
   });
+
+

@@ -15,9 +15,9 @@ export interface IArabicformwebpartProps {
   CurrentLanauge: string;
   spHttpClient: SPHttpClient;
   pageContext: PageContext;
-  siteurl: string;
-  ItemGuid: string;
-  loading: false;
+  siteurl: string,
+  ItemGuid: string,
+  loading: false,
   UploadedFilesArray: Array<string>[];
   ProjectName: string;
   AmountForcast: Number;
@@ -37,6 +37,5 @@ export interface IArabicformwebpartProps {
   MonitorColumns: IColumn[];
   MonitorIndex:number;
   showPanel: boolean;
-  ProjectArrayGrid:Array<object>;
 
 }
