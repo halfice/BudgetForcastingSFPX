@@ -72,6 +72,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       MonitorIndex: 0,
       showPanel: false,
       ProjectArrayGrid: [],
+      PanelScreen: "Activities",
     };
     this._onChange = this._onChange.bind(this);
     this.OnchangeRemarks = this.OnchangeRemarks.bind(this);
@@ -81,6 +82,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     this.AddActivity = this.AddActivity.bind(this);
     this.handleUpdateProject = this.handleUpdateProject.bind(this);
     this._onItemInvoked2 = this._onItemInvoked2.bind(this);
+    this._onItemInvokedGetProjectDetail = this._onItemInvokedGetProjectDetail.bind(this);
     this.onChangeProjectDropDownrpt = this.onChangeProjectDropDownrpt.bind(this);
 
   }
@@ -91,11 +93,24 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   private _onItemInvoked2(item: any): void {
     var CompleteItemArray = this.state.Monitoritems;
     let filteredarray = CompleteItemArray.filter(person => person["index"] == item["index"]);
+
     this.setState({
       showPanel: true,
       CurrentItemId: item.Id,
       MonitorIndex: parseInt(item["index"]),
       //ProjectName: filteredarray[0]["ProjectName"],
+    });
+  }
+
+  private _onItemInvokedGetProjectDetail(item: any): void {
+    //alert(item.Title);
+    if (this.state.BudgetForcasting.length == 0) {
+      this.FetchForCasting(item.Title);
+    }
+    this.setState({
+      showPanel: true,
+      PanelScreen: "Project"
+
     });
   }
 
@@ -493,6 +508,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       });
   }
 
+
+
   public render(): React.ReactElement<IArabicformwebpartProps> {
     //this.context.pageContext
     // it is only available on render
@@ -515,6 +532,50 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     var MonthsArray = months.map((item, i) => {
       return <option value={item} key={item}>{item}</option>;
     }); // months.map(function (item, i) {
+
+
+    //filling the Panel for Project start
+    if (this.state.PanelScreen == "Project") {
+
+      
+      var Panelhtml = this.state.BudgetForcasting.map((item, i, arr) => {
+        return (
+          <div>
+            <Row>
+              <Col>
+
+                {item["Month"]}
+              </Col>
+              <Col>
+                
+                 Forcast : {item["AmountMonthly"]}
+                
+              </Col>
+              <Col>
+                
+                 Delivered : {item["Delivered"]}
+                
+              </Col>
+            </Row>
+
+
+          </div>
+        );
+      });
+      
+      var PanelFooter = this.state.BudgetForcasting.map((item, i) => {
+        return (
+          <div>
+            <Row>
+              <Col>Remaining :{item["Title"]}</Col>
+              <Col>Total Amount :{item["Amount"]}</Col>
+            </Row>
+
+          </div>);
+
+      });
+    }
+    //filling the panel for project end
 
 
 
@@ -690,7 +751,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
 
 
-                    onItemInvoked={this._onItemInvoked2}
+                    onItemInvoked={this._onItemInvokedGetProjectDetail}
 
                   />
 
@@ -902,6 +963,20 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
           closeButtonAriaLabel="Close"
         >
           <h1>Budget forcast </h1>
+
+  {
+    this.state.BudgetForcasting.length>0 &&
+<Row>
+<Col>Name :{this.state.BudgetForcasting[0]["Title"]}</Col>
+              <Col>Total Amount :{this.state.BudgetForcasting[0]["Amount"]}</Col>
+</Row>
+  }
+<Row>
+
+{Panelhtml}
+</Row>
+          
+
         </Panel>
 
       </div>
@@ -927,7 +1002,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
         var jobTitle = response.d.Title;
         var profUrl = response.d.UserUrl;
         var MBNumber = response.d.AccountName;
-        var Departments = "تكنولوجيا المعلومات";
+        var Departments = "IT";//"تكنولوجيا المعلومات";
         var Tmpe = MBNumber.toString().split('|');
         var Tmp2 = Tmpe[2].toString().split('@');
         MBNumber = Tmp2[0];

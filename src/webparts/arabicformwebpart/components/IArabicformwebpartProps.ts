@@ -38,5 +38,6 @@ export interface IArabicformwebpartProps {
   MonitorIndex:number;
   showPanel: boolean;
   ProjectArrayGrid:Array<object>;
+  PanelScreen:string;
 
 }
