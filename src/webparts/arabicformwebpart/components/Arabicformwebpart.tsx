@@ -540,40 +540,22 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       
       var Panelhtml = this.state.BudgetForcasting.map((item, i, arr) => {
         return (
-          <div>
+          <div className={styles.row}>
             <Row>
               <Col>
-
                 {item["Month"]}
               </Col>
               <Col>
-                
-                 Forcast : {item["AmountMonthly"]}
-                
+                 F : {item["AmountMonthly"]}
               </Col>
               <Col>
-                
-                 Delivered : {item["Delivered"]}
-                
+                 D : {item["Delivered"]}
               </Col>
             </Row>
-
-
           </div>
         );
       });
-      
-      var PanelFooter = this.state.BudgetForcasting.map((item, i) => {
-        return (
-          <div>
-            <Row>
-              <Col>Remaining :{item["Title"]}</Col>
-              <Col>Total Amount :{item["Amount"]}</Col>
-            </Row>
-
-          </div>);
-
-      });
+  
     }
     //filling the panel for project end
 
@@ -966,10 +948,14 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
   {
     this.state.BudgetForcasting.length>0 &&
+    <div>
 <Row>
-<Col>Name :{this.state.BudgetForcasting[0]["Title"]}</Col>
-              <Col>Total Amount :{this.state.BudgetForcasting[0]["Amount"]}</Col>
+<Col>
+<h2>Name :{this.state.BudgetForcasting[0]["Project"]}</h2>
+</Col>
+              <Col><h3> Total :{this.state.BudgetForcasting[0]["Amount"]}</h3></Col>
 </Row>
+</div>
   }
 <Row>
 
