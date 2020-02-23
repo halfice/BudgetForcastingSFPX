@@ -60,11 +60,11 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       Department: "IT",
       ProjectsArray: [],
       SelectedMonth: "",
-      TotalAmountForcasted: "",
-      MonthlyForcastAmount: "",
-      MonthlyDeliveredAmount: "",
+      TotalAmountForcasted: "0",
+      MonthlyForcastAmount: "0",
+      MonthlyDeliveredAmount: "0",
       BudgetForcasting: [],
-      Remarks: "",
+      Remarks: "0",
       BalanceForcastTotal: 0,
       BalanceDeliverTotal: 0,
       Monitoritems: [],
@@ -73,6 +73,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       showPanel: false,
       ProjectArrayGrid: [],
       PanelScreen: "Activities",
+      PanelSelectedProject: [],
+      PanelSelectedActivity:[],
     };
     this._onChange = this._onChange.bind(this);
     this.OnchangeRemarks = this.OnchangeRemarks.bind(this);
@@ -84,6 +86,9 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     this._onItemInvoked2 = this._onItemInvoked2.bind(this);
     this._onItemInvokedGetProjectDetail = this._onItemInvokedGetProjectDetail.bind(this);
     this.onChangeProjectDropDownrpt = this.onChangeProjectDropDownrpt.bind(this);
+    this._Approve = this._Approve.bind(this);
+    this._Reject = this._Reject.bind(this);
+    this._renderItemColumnMonitor = this._renderItemColumnMonitor.bind(this);
 
   }
   public OnchangeRemarks(event: any): void {
@@ -92,28 +97,61 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
   private _onItemInvoked2(item: any): void {
     var CompleteItemArray = this.state.Monitoritems;
-    let filteredarray = CompleteItemArray.filter(person => person["index"] == item["index"]);
-
+    var filteredarray = CompleteItemArray.filter(person => person["index"] == item["index"]);
+    console.log(filteredarray);
     this.setState({
       showPanel: true,
       CurrentItemId: item.Id,
       MonitorIndex: parseInt(item["index"]),
-      //ProjectName: filteredarray[0]["ProjectName"],
+      PanelSelectedActivity:filteredarray,
     });
   }
 
   private _onItemInvokedGetProjectDetail(item: any): void {
-    //alert(item.Title);
+    var filteredarray = [];
     if (this.state.BudgetForcasting.length == 0) {
-      this.FetchForCasting(item.Title);
-    }
-    this.setState({
-      showPanel: true,
-      PanelScreen: "Project"
+      this.setState({
+        showPanel: true,
+        PanelScreen: "Project",
+        PanelSelectedProject: filteredarray
+      }, () => {
+        this.FetchForCasting(item.Title);
+      });
+    } else {
+      filteredarray = this.state.BudgetForcasting.filter(Project => Project["Project"] == item.Title);
+      if (filteredarray.length == 0) {
+        this.setState({
+          showPanel: true,
+          PanelScreen: "Project",
+          PanelSelectedProject: filteredarray
+        }, () => {
+          this.FetchForCasting(item.Title);
+        });
+      }
 
-    });
+    }
+
   }
 
+  private _Approve() {
+
+  }
+  private _Reject() {
+  }
+
+  public currencyFormat(num) {
+    var tempnumb=num.toString().length;
+    if (num === null || null === ''|| null === "") {
+      return '0 د.إ';
+    } 
+    else {
+      if (tempnumb>2){
+      return 'د.إ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+      }else{
+        return '0 د.إ';
+      }
+    }
+  }
 
   public AddActivity() {
     //Adding Activitites
@@ -148,6 +186,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
               Activity: items[i].Activity,
               Month: items[i].Month,
               Project: items[i].Title,
+              index:items[i].Id,
             };
             TempComplteDropDown.push(NewData);
           }
@@ -165,6 +204,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
               Activity: items[i].Activity,
               Month: items[i].Month,
               Project: items[i].Title,
+              index:items[i].Id,
             };
             TempComplteDropDown.push(NewData);
           }
@@ -207,7 +247,6 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   }
 
   public fetchProjects() {
-
     var NewISiteUrl = this.props.siteurl;
     var NewSiteUrl = NewISiteUrl.replace("/SitePages", "");
     let webx = new Web(NewSiteUrl);
@@ -216,7 +255,6 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     webx.lists.getByTitle("Projects").items.filter("Department eq '" + this.state.Department + "'").get().then((items: any[]) => {
       if (items.length > 0) {
         for (var i = 0; i < items.length; i++) {
-
           var NewData = {
             TotalAMount: items[i].AmountForCast,
             Title: items[i].Title,
@@ -259,12 +297,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   }
 
   public handleUpdateProject() {
-
     var tmp = this.state.SelectedMonth;
     var TempArray = this.state.BudgetForcasting;
-    //  TempArray = TempArray.filter(function (TempArray) {
-    // return TempArray["Month"] == tmp;
-    // });
     let filteredarray = TempArray.filter(person => person["Month"] == tmp);
     if (filteredarray != null) {
       var ItemID = 0;
@@ -303,16 +337,15 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     var TempComplteDropDown = [];
     var tmpBalance = 0;
     var tmpBalanceDlvr = 0;
+    var filteredarray = [];
     webx.lists.getByTitle("Forcasting").items.select('AmountMonthly,ID,Project,Amount,Month,AmountMonthly,Department,Remaining,Delivered')
       .filter("Department eq '" + this.state.Department + "' and Project eq '" + ParamProjectName + "'").get().then((items: any[]) => {
         if (items.length > 0) {
           for (var i = 0; i < items.length; i++) {
-
             var TmpDevlier = 0;
             if (items[i].Delivered != "" && items[i].Delivered != null) {
               TmpDevlier = items[i].Delivered;
             }
-
             var NewData = {
               TotalAMount: items[i].Amount,
               Title: items[i].Title,
@@ -330,22 +363,16 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
             var tmpFloatAmount = parseFloat(TempAmountMonthly);
             var tmpTotalAMount = parseFloat(items[i].Amount);
             tmpBalance = tmpBalance + tmpFloatAmount;
-
-
             tmpBalanceDlvr = tmpBalanceDlvr + TmpDevlier;
-
           }
-
-
 
           tmpBalance = tmpTotalAMount - tmpBalance;
           tmpBalanceDlvr = tmpTotalAMount - tmpBalanceDlvr;
-
-
           this.setState({
             BudgetForcasting: TempComplteDropDown,
             BalanceForcastTotal: tmpBalance,
-            BalanceDeliverTotal: tmpBalanceDlvr
+            BalanceDeliverTotal: tmpBalanceDlvr,
+            PanelSelectedProject: TempComplteDropDown
           });
         } else {
           this.setState({
@@ -460,7 +487,6 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       });
   }
 
-
   public filterItems = (arr, query) => {
     return arr.filter(el => el.Title == query);
   }
@@ -484,12 +510,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
   public onChangeProjectDropDownrpt(event: any): void {
     var tmp = event.target.value;
-
     var TempArray = this.state.ProjectsArray;
     var newar = this.filterItems(TempArray, tmp);
-
-
-
     var CurrentReportStatus = newar[0]["TotalAMount"];
     this.setState(
       {
@@ -509,20 +531,23 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   }
 
 
+  private _renderItemColumnMonitor(item, index, column) {
+    // See if this is the 'Title' column
+    if (column.key == "TotalAMount") {
+        // Return the view item button
+        return (
+           this.currencyFormat(item[column.key])
+        );
+    }
+    // Return the field value
+    return item[column.key];
+}
 
   public render(): React.ReactElement<IArabicformwebpartProps> {
-    //this.context.pageContext
-    // it is only available on render
     var defaultValue = 'My default value';
-    // <Toggle defaultChecked onText="Arabic" offText="English" onChange={this._onChange.bind(this)} />
-
-    // <Toggle defaultChecked onText="Arabic" offText="English" onChange={this._onChange.bind(this)} />
     var SubProjectArrays = this.state.ProjectsArray.map((item, i) => {
       return <option value={item["Title"]} key={item["Id"]}>{item["Title"]}</option>;
     });
-
-
-
 
     var months = new Array("-", "January", "February", "March",
       "April", "May", "June", "July", "August", "September",
@@ -533,43 +558,45 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       return <option value={item} key={item}>{item}</option>;
     }); // months.map(function (item, i) {
 
-
-    //filling the Panel for Project start
     if (this.state.PanelScreen == "Project") {
-
-      
-      var Panelhtml = this.state.BudgetForcasting.map((item, i, arr) => {
+      var Panelhtml = this.state.PanelSelectedProject.map((item, i, arr) => {
         return (
-          <div className={styles.row}>
-            <Row>
-              <Col>
+          <div className={styles.containersol}>
+            <div className={styles.row}>
+              <div>
                 {item["Month"]}
-              </Col>
-              <Col>
-                 F : {item["AmountMonthly"]}
-              </Col>
-              <Col>
-                 D : {item["Delivered"]}
-              </Col>
-            </Row>
+              </div>
+              <div>
+                F :  {this.currencyFormat(item["AmountMonthly"])}
+              </div>
+              <div>
+                D : {this.currencyFormat(item["Delivered"])}
+              </div>
+            </div>
           </div>
         );
       });
-  
+
+      if (this.state.PanelSelectedProject.length > 0) {
+        var PanelFooter = "Yes";
+      }
+
     }
     //filling the panel for project end
+
+
 
 
 
     if (this.state.Screen == "Forcast") {
       var SubProjectArraysCards = this.state.BudgetForcasting.map((item, i) => {
         return (
-          <div className={styles.circleContent}>
+          <div className={styles.containersol}>
             <span >
               {item["Month"]}
             </span>
             <div >
-              {item["AmountMonthly"]}
+              {this.currencyFormat(item["AmountMonthly"])}
             </div>
           </div>
         );
@@ -580,16 +607,16 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     if (this.state.Screen == "Deliverables") {
       var SubProjectArraysCardsDelivered = this.state.BudgetForcasting.map((item, i) => {
         return (
-          <div className={styles.circleContentdeliver}>
-            <span >
+          <div className={styles.containersol}>
+            <div >
               M: {item["Month"]}
-            </span>
-            <span>
-              F: {item["AmountMonthly"]}
-            </span>
-            <span >
-              D: {item["Delivered"]}
-            </span>
+            </div>
+            <div>
+              F: {this.currencyFormat(item["AmountMonthly"])}
+            </div>
+            <div >
+              D: {this.currencyFormat(item["Delivered"])}
+            </div>
           </div>
         );
       });
@@ -723,16 +750,13 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
                   <DetailsList
                     items={this.state.ProjectArrayGrid}
                     columns={this.state.MonitorColumns}
-                    //  onRenderItemColumn={_renderItemColumnMonitor}
+                    onRenderItemColumn={this._renderItemColumnMonitor.bind(this)}
                     setKey="set"
                     layoutMode={DetailsListLayoutMode.justified}
                     selectionPreservedOnEmptyClick={true}
                     ariaLabelForSelectionColumn="Toggle selection"
                     ariaLabelForSelectAllCheckbox="Toggle selection for all items"
                     checkButtonAriaLabel="Row checkbox"
-
-
-
                     onItemInvoked={this._onItemInvokedGetProjectDetail}
 
                   />
@@ -750,13 +774,13 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
           <div className={styles.MainDivClass} >
             <Row>
               <Col>
-                <div className={styles.circle}> <p>Total</p>
-                  {this.state.TotalAmountForcasted}
+                <div className={styles.containersol}> <p>Total</p>
+                  {this.currencyFormat(this.state.TotalAmountForcasted)}
                 </div>
               </Col>
               <Col>
-                <div className={styles.circle}> <p>BAL</p>
-                  {this.state.BalanceForcastTotal}
+                <div className={styles.containersol}> <p>BAL</p>
+                  {this.currencyFormat(this.state.BalanceForcastTotal)}
                 </div>
               </Col>
 
@@ -798,25 +822,23 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
           </div>
         }
 
-
-
         {
           this.state.Screen == "Deliverables" &&
           <div className={styles.MainDivClass} >
             <Row>
               <Col>
-                <div className={styles.circle}> <p>Total</p>
-                  {this.state.TotalAmountForcasted}
+                <div className={styles.containersol}> <p>Total</p>
+                  {this.currencyFormat(this.state.TotalAmountForcasted)}
                 </div>
               </Col>
               <Col>
-                <div className={styles.circle}> <p>BAL</p>
-                  {this.state.BalanceForcastTotal}
+                <div className={styles.containersol}> <p>BAL</p>
+                  {this.currencyFormat(this.state.BalanceForcastTotal)}
                 </div>
               </Col>
               <Col>
-                <div className={styles.circle}> <p>Del</p>
-                  {this.state.BalanceDeliverTotal}
+                <div className={styles.containersol}> <p>Del</p>
+                  {this.currencyFormat(this.state.BalanceDeliverTotal)}
                 </div>
               </Col>
 
@@ -825,41 +847,28 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
 
             <div className={styles.PaddingForBottom}>
-
-
               <div className={styles.labelc}>{strings.ProjectName}</div>
               <select value={this.state.ProjectName} className={styles.myinputSelect}
                 defaultValue={defaultValue}
                 onChange={this.onChangeProjectDropDown.bind(this)}>{SubProjectArrays}
               </select>
-
-
               <div className={styles.labelc}>{strings.month}</div>
               <select value={this.state.SelectedMonth} className={styles.myinputSelect}
                 defaultValue={defaultValue}
                 onChange={this.onChangeMonthDropDown.bind(this)}>{MonthsArray}
               </select>
-
               <div className={styles.labelc}>{strings.AmountDelivere}</div>
               <NumberFormat className={styles.textClass} thousandSeparator={true} prefix={'aed '} onValueChange={(values) => {
                 var { formattedValue, value } = values;
                 formattedValue = formattedValue.replace("aed", "");
                 this.setState({ MonthlyDeliveredAmount: formattedValue });
               }} />
-
-
-
             </div>
-
-
-
-
             <Stack horizontal >
               <PrimaryButton text={strings.Submitbtn} allowDisabledFocus onClick={this.handleUpdateProject.bind(this)} />
             </Stack>
             <hr>
             </hr>
-
 
             {
               this.state.BudgetForcasting.length > 0 &&
@@ -892,13 +901,13 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
               <div className={styles.labelc}>{strings.DescriptionFieldLabel}</div>
               <textarea value={this.state.Remarks} className={styles.myinputTextArea} onChange={this.OnchangeRemarks.bind(this)} >
                 Hello there, this is some text in a text area
-                        </textarea>
+</textarea>
             </div>
             <Stack horizontal >
               <PrimaryButton text={strings.Submitbtn} allowDisabledFocus onClick={this.AddActivity.bind(this)} />
             </Stack>
 
-            <div>
+            <div className={styles.containeren} >
               <DetailsList
                 items={this.state.Monitoritems}
                 columns={this.state.MonitorColumns}
@@ -919,7 +928,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
         {
           this.state.Screen == "Reports" &&
-          <div className={styles.MainDivClass} >
+          <div className={styles.containeren} >
 
             <DetailsList
               items={this.state.Monitoritems}
@@ -946,22 +955,31 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
         >
           <h1>Budget forcast </h1>
 
-  {
-    this.state.BudgetForcasting.length>0 &&
-    <div>
-<Row>
-<Col>
-<h2>Name :{this.state.BudgetForcasting[0]["Project"]}</h2>
-</Col>
-              <Col><h3> Total :{this.state.BudgetForcasting[0]["Amount"]}</h3></Col>
-</Row>
-</div>
-  }
-<Row>
+          {
+            this.state.PanelSelectedProject.length > 0 &&
+            <div>
+              <Row>
+                <Col>
+                  <h4>Name :{this.state.PanelSelectedProject[0]["Project"]}</h4>
+                </Col>
+                <Col><h4> Total :{this.state.PanelSelectedProject[0]["Amount"]}</h4></Col>
+              </Row>
+            </div>
+          }
+          <Row>
+            {Panelhtml}
+          </Row>
+          <Row>
+            {
+              PanelFooter == "Yes" && <div>
+                <Stack horizontal >
+                  <DefaultButton text={strings.Submitbtn} allowDisabledFocus onClick={this._Approve.bind(this)} />
+                  <PrimaryButton text={strings.Cancelbtn} allowDisabledFocus onClick={this._onClosePanel.bind(this)} />
+                </Stack>
+              </div>
 
-{Panelhtml}
-</Row>
-          
+            }
+          </Row>
 
         </Panel>
 

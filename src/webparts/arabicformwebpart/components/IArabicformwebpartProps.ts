@@ -39,5 +39,6 @@ export interface IArabicformwebpartProps {
   showPanel: boolean;
   ProjectArrayGrid:Array<object>;
   PanelScreen:string;
-
+  PanelSelectedProject:Array<object>;
+PanelSelectedActivity:Array<object>;
 }
