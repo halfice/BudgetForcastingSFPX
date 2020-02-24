@@ -64,7 +64,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       MonthlyForcastAmount: "0",
       MonthlyDeliveredAmount: "0",
       BudgetForcasting: [],
-      Remarks: "0",
+      Remarks: "",
       BalanceForcastTotal: 0,
       BalanceDeliverTotal: 0,
       Monitoritems: [],
@@ -74,7 +74,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       ProjectArrayGrid: [],
       PanelScreen: "Activities",
       PanelSelectedProject: [],
-      PanelSelectedActivity:[],
+      PanelSelectedActivity: [],
     };
     this._onChange = this._onChange.bind(this);
     this.OnchangeRemarks = this.OnchangeRemarks.bind(this);
@@ -98,12 +98,13 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   private _onItemInvoked2(item: any): void {
     var CompleteItemArray = this.state.Monitoritems;
     var filteredarray = CompleteItemArray.filter(person => person["index"] == item["index"]);
-    console.log(filteredarray);
+    //console.log(filteredarray);
     this.setState({
       showPanel: true,
       CurrentItemId: item.Id,
       MonitorIndex: parseInt(item["index"]),
-      PanelSelectedActivity:filteredarray,
+      PanelSelectedActivity: filteredarray,
+      PanelScreen: "Activity Detail",
     });
   }
 
@@ -113,7 +114,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       this.setState({
         showPanel: true,
         PanelScreen: "Project",
-        PanelSelectedProject: filteredarray
+        PanelSelectedProject: filteredarray,
+        ProjectName: item.Title,
       }, () => {
         this.FetchForCasting(item.Title);
       });
@@ -123,7 +125,9 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
         this.setState({
           showPanel: true,
           PanelScreen: "Project",
-          PanelSelectedProject: filteredarray
+          PanelSelectedProject: filteredarray,
+          ProjectName: item.Title,
+          // TotalAmountForcasted:filteredarray[0]["TotalAMount"]
         }, () => {
           this.FetchForCasting(item.Title);
         });
@@ -140,14 +144,14 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   }
 
   public currencyFormat(num) {
-    var tempnumb=num.toString().length;
-    if (num === null || null === ''|| null === "") {
+    var tempnumb = num.toString().length;
+    if (num === null || null === '' || null === "") {
       return '0 د.إ';
-    } 
+    }
     else {
-      if (tempnumb>2){
-      return 'د.إ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-      }else{
+      if (tempnumb > 2) {
+        return 'د.إ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+      } else {
         return '0 د.إ';
       }
     }
@@ -155,6 +159,10 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
 
   public AddActivity() {
     //Adding Activitites
+    if (this.state.Remarks.length == 0) {
+      alert("Enter Activity String.......")
+      return;
+    }
     var dateFormat = require('dateformat');
     var NewISiteUrl = this.props.siteurl;
     var NewSiteUrl = NewISiteUrl.replace("/SitePages", "");
@@ -183,10 +191,12 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
         if (items.length > 0) {
           for (var i = 0; i < items.length; i++) {
             var NewData = {
-              Activity: items[i].Activity,
+              Activity: items[i].Activity.toString().substring(1, 6) + '....',
               Month: items[i].Month,
               Project: items[i].Title,
-              index:items[i].Id,
+              index: items[i].Id,
+              FullString: items[i].Activity,
+              ActivityCreated:items[i].Created,
             };
             TempComplteDropDown.push(NewData);
           }
@@ -201,10 +211,12 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
         if (items.length > 0) {
           for (var i = 0; i < items.length; i++) {
             var NewData = {
-              Activity: items[i].Activity,
+              Activity: items[i].Activity.toString().substring(1, 6) + '....',
               Month: items[i].Month,
               Project: items[i].Title,
-              index:items[i].Id,
+              index: items[i].Id,
+              FullString: items[i].Activity,
+              ActivityCreated:items[i].Created,
             };
             TempComplteDropDown.push(NewData);
           }
@@ -283,8 +295,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     var NewISiteUrl = this.props.siteurl;
     var NewSiteUrl = NewISiteUrl.replace("/SitePages", "");
     let webx = new Web(NewSiteUrl);
-    if (this.state.ProjectName == "" && this.state.ProjectName == null) {
-      alert("Enter Project NAme");
+    if (this.state.ProjectName == "" || this.state.ProjectName == null) {
+      alert("Enter Project Name - Required / Mandatory");
       return;
     }
     webx.lists.getByTitle("Projects").items.add({
@@ -297,6 +309,23 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   }
 
   public handleUpdateProject() {
+    if (this.state.ProjectName == "" || this.state.ProjectName == null) {
+      alert("Enter Project Name - Required / Mandatory");
+      return;
+    }
+    if (this.state.SelectedMonth=="" || this.state.SelectedMonth=="-")
+    {
+      alert("Select Month!!!!");
+      return;
+    }
+
+    if (this.state.MonthlyDeliveredAmount=="0"){
+      alert("Entered Amount /  Month!!!!");
+      return;
+    }
+
+
+
     var tmp = this.state.SelectedMonth;
     var TempArray = this.state.BudgetForcasting;
     let filteredarray = TempArray.filter(person => person["Month"] == tmp);
@@ -315,6 +344,21 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   }
 
   public AddForcastMonth() {
+    if (this.state.ProjectName == "" || this.state.ProjectName == null) {
+      alert("Enter Project Name - Required / Mandatory");
+      return;
+    }
+    if (this.state.SelectedMonth=="" || this.state.SelectedMonth=="-")
+    {
+      alert("Select Month!!!!");
+      return;
+    }
+
+    if (this.state.MonthlyForcastAmount=="0"){
+      alert("Entered Amount /  Month!!!!");
+      return;
+    }
+
     var NewISiteUrl = this.props.siteurl;
     var NewSiteUrl = NewISiteUrl.replace("/SitePages", "");
     let webx = new Web(NewSiteUrl);
@@ -338,6 +382,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
     var tmpBalance = 0;
     var tmpBalanceDlvr = 0;
     var filteredarray = [];
+    var TempTotalAmountForcasted = 0;
     webx.lists.getByTitle("Forcasting").items.select('AmountMonthly,ID,Project,Amount,Month,AmountMonthly,Department,Remaining,Delivered')
       .filter("Department eq '" + this.state.Department + "' and Project eq '" + ParamProjectName + "'").get().then((items: any[]) => {
         if (items.length > 0) {
@@ -358,6 +403,7 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
               Delivered: TmpDevlier,
               ItemId: items[i].Id,
             };
+            TempTotalAmountForcasted = items[0].Amount
             TempComplteDropDown.push(NewData);
             var TempAmountMonthly = items[i].AmountMonthly;
             var tmpFloatAmount = parseFloat(TempAmountMonthly);
@@ -372,7 +418,8 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
             BudgetForcasting: TempComplteDropDown,
             BalanceForcastTotal: tmpBalance,
             BalanceDeliverTotal: tmpBalanceDlvr,
-            PanelSelectedProject: TempComplteDropDown
+            PanelSelectedProject: TempComplteDropDown,
+            TotalAmountForcasted: TempTotalAmountForcasted
           });
         } else {
           this.setState({
@@ -534,21 +581,21 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
   private _renderItemColumnMonitor(item, index, column) {
     // See if this is the 'Title' column
     if (column.key == "TotalAMount") {
-        // Return the view item button
-        return (
-           this.currencyFormat(item[column.key])
-        );
+      // Return the view item button
+      return (
+        this.currencyFormat(item[column.key])
+      );
     }
     // Return the field value
     return item[column.key];
-}
+  }
 
   public render(): React.ReactElement<IArabicformwebpartProps> {
     var defaultValue = 'My default value';
     var SubProjectArrays = this.state.ProjectsArray.map((item, i) => {
       return <option value={item["Title"]} key={item["Id"]}>{item["Title"]}</option>;
     });
-
+    var PanelHeader = null;
     var months = new Array("-", "January", "February", "March",
       "April", "May", "June", "July", "August", "September",
       "October", "November", "December");
@@ -582,10 +629,55 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
       }
 
     }
+    if (this.state.PanelScreen == "Project" && PanelHeader == null) {
+      PanelHeader = (
+        <Row>
+          <Col>
+            <h4>Name : {this.state.ProjectName}</h4>
+          </Col>
+          <Col><h4> Total : {this.currencyFormat(this.state.TotalAmountForcasted)}</h4></Col>
+        </Row>
+      )
+        ;
+    }
+    //PanelSelectedActivity
     //filling the panel for project end
 
-
-
+    if (this.state.PanelScreen == "Activity Detail") {
+      var Panelhtml = this.state.PanelSelectedActivity.map((item, i, arr) => {
+        return (
+          <div className={styles.containerpanel}>
+            <div className={styles.row}>
+              <div>
+                <h4>Activity Details</h4>
+              </div>
+              <hr></hr>
+              <div>
+                <h4>
+                  Created:{this.state.PanelSelectedActivity[0]["ActivityCreated"]}</h4>
+              </div>
+              <div>
+                <hr></hr>
+              <h5>{this.state.PanelSelectedActivity[0]["FullString"]}</h5>
+              </div>
+            </div>
+          </div>
+        );
+      });
+      if (this.state.PanelSelectedActivity.length > 0) {
+        var PanelFooter = "Yes";
+      }
+    }
+    if (this.state.PanelScreen == "Activity Detail" && PanelHeader == null) {
+      PanelHeader = this.state.PanelSelectedActivity.map((item, i, arr) => {
+        return (<Row>
+          <Col>
+            <h4>Name : {this.state.ProjectName}</h4>
+          </Col>
+          <Col><h4> Total :{this.currencyFormat(this.state.TotalAmountForcasted)}</h4></Col>
+        </Row>)
+      });
+    }
 
 
     if (this.state.Screen == "Forcast") {
@@ -953,28 +1045,22 @@ export default class Arabicformwebpart extends React.Component<IArabicformwebpar
           headerText="Details"
           closeButtonAriaLabel="Close"
         >
-          <h1>Budget forcast </h1>
-
-          {
-            this.state.PanelSelectedProject.length > 0 &&
-            <div>
-              <Row>
-                <Col>
-                  <h4>Name :{this.state.PanelSelectedProject[0]["Project"]}</h4>
-                </Col>
-                <Col><h4> Total :{this.state.PanelSelectedProject[0]["Amount"]}</h4></Col>
-              </Row>
-            </div>
-          }
+          <h4>Budget forcasting  </h4>
+          <hr></hr>
+          {PanelHeader}
           <Row>
             {Panelhtml}
           </Row>
+
           <Row>
             {
               PanelFooter == "Yes" && <div>
+               
                 <Stack horizontal >
-                  <DefaultButton text={strings.Submitbtn} allowDisabledFocus onClick={this._Approve.bind(this)} />
-                  <PrimaryButton text={strings.Cancelbtn} allowDisabledFocus onClick={this._onClosePanel.bind(this)} />
+                <Col><DefaultButton text={strings.Submitbtn} allowDisabledFocus onClick={this._Approve.bind(this)} /></Col>
+                <Col><PrimaryButton text={strings.Cancelbtn} allowDisabledFocus onClick={this._onClosePanel.bind(this)} /></Col>
+                  
+                  
                 </Stack>
               </div>
 
